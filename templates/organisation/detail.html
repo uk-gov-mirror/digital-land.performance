@@ -186,7 +186,7 @@ svg path:hover { opacity: 0.5 }
             <tbody class="govuk-table__body">
                 {% for adoption in adoptions %}
                 <tr class="govuk-table__row">
-                    <td class="govuk-table__cell"><a href="{{ base_path }}/product/{{ adoption.product|slugify }}/">{{ adoption.product }}</a></td>
+                    <td class="govuk-table__cell">{{ adoption.product }}</td>
                     <td class="govuk-table__cell">{{ adoption.adoption_status }}</td>
                     <td class="govuk-table__cell">{{ adoption.start_date|govuk_date }}</td>
                     <td class="govuk-table__cell">
