@@ -4,7 +4,6 @@ import sys
 import csv
 import pandas as pd
 
-
 organisations = {
     # patched for now ..
     "E51000005": "development-corporation:Q115585981",
@@ -28,18 +27,25 @@ for row in csv.DictReader(open("var/cache/organisation.csv", newline="")):
 
 
 # Read a specific sheet into dataframe
-df=pd.read_excel(sys.argv[1], sheet_name=1, skiprows=19, skipfooter=15)
+df = pd.read_excel(sys.argv[1], sheet_name=1, skiprows=19, skipfooter=15)
 
-df.columns.values[0] = "name"
-df.columns.values[1] = "reference"
-df.columns.values[50] = "volume"
-df.columns.values[57] = "percentage"
+columns = list(df.columns)
+columns[0] = "name"
+columns[1] = "reference"
+columns[50] = "volume"
+columns[57] = "percentage"
+df.columns = columns
 
 for index, row in df.iterrows():
     reference = str(row["reference"])
     if reference in organisations:
-        df.loc[index, 'organisation'] = organisations[reference]
+        df.loc[index, "organisation"] = organisations[reference]
         df.loc[index, "volume"] = str(row["volume"]).replace("~", "")
         df.loc[index, "percentage"] = str(row["percentage"]).replace("-", "")
 
-df.to_csv(sys.argv[2], header=True, index=False, columns=["organisation", "reference", "name", "volume", "percentage"])
+df.to_csv(
+    sys.argv[2],
+    header=True,
+    index=False,
+    columns=["organisation", "reference", "name", "volume", "percentage"],
+)
